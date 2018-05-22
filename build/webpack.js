@@ -10,7 +10,7 @@ module.exports = {
   entry: './src/main.js',
   output: {
     path: path.resolve(__dirname, '../dist'),
-    filename: 'vue-infinite-scroll.min.js',
+    filename: 'vue-infinite-iscroll.min.js',
     libraryTarget: 'umd',
     umdNamedDefine: true
   },
