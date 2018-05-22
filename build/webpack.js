@@ -1,25 +1,30 @@
 const path = require('path')
-const CleanWebpackPlugin = require('clean-webpack-plugin')
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 const config = require('./config')
-const outputPath = config.outputPath
 const vueLoaderConfig = config.vueLoaderConfig
-const pathsToClean = config.pathsToClean
 
 module.exports = {
   context: path.join(__dirname, '../'),
   entry: './src/main.js',
   output: {
-    path: path.resolve(__dirname, outputPath),
+    path: path.resolve(__dirname, '../dist'),
     filename: 'vue-infinite-scroll.min.js',
     libraryTarget: 'umd',
     umdNamedDefine: true
   },
   resolve: {
+    alias: {
+      'vue$': 'vue/dist/vue.esm.js'
+    },
     extensions: ['.js', '.vue', '.json']
   },
   module: {
     rules: [
+      {
+        test: /\.css$/,
+        loaders: 'vue-style-loader!css-loader'
+      },
       {
         test: /\.vue$/,
         loader: 'vue-loader',
@@ -28,11 +33,11 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        include: [resolve('src')]
+        exclude: /node_modules/
       }
     ]
   },
   plugins: [
-    new CleanWebpackPlugin(pathsToClean)
+    new VueLoaderPlugin()
   ]
 }
