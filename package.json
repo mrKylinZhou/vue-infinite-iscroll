@@ -2,7 +2,7 @@
   "name": "vue-infinite-iscroll",
   "version": "0.0.1",
   "description": "A vue infinite scroll",
-  "main": "./dist/vue-infinite-scroll.min.js",
+  "main": "dist/vue-infinite-iscroll.min.js",
   "author": "周麒麟 <mrkylin.zhou@gmail.com>",
   "license": "MIT",
   "scripts": {
