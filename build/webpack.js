@@ -5,6 +5,7 @@ const config = require('./config')
 const vueLoaderConfig = config.vueLoaderConfig
 
 module.exports = {
+  mode: 'production',
   context: path.join(__dirname, '../'),
   entry: './src/main.js',
   output: {
