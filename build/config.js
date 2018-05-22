@@ -2,6 +2,12 @@ const vueLoaderConfig = {
 
 }
 
+const outputPath = 'dist'
+
+const pathsToClean = [outputPath]
+
 module.exports = {
-  vueLoaderConfig: vueLoaderConfig
+  outputPath: outputPath,
+  vueLoaderConfig: vueLoaderConfig,
+  pathsToClean: pathsToClean
 }

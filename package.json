@@ -2,9 +2,12 @@
   "name": "vue-infinite-scroll",
   "version": "0.0.1",
   "description": "A vue infinite scroll",
-  "main": "./src/main.js",
+  "main": "./dist/vue-infinite-scroll.min.js",
   "author": "周麒麟 <mrkylin.zhou@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "build": ""
+  },
   "dependencies": {
     "iscroll": "^5.2.0",
     "vue": "^2.5.16"
@@ -13,6 +16,7 @@
     "autoprefixer": "^8.5.0",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.4",
+    "clean-webpack-plugin": "^0.1.19",
     "css-loader": "^0.28.11",
     "vue-loader": "^15.1.0",
     "webpack": "^4.8.3"
