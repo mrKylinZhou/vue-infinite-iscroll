@@ -12,12 +12,13 @@ npm install vue-infinite-iscroll -S || yarn add vue-infinite-iscroll
 ## Links
 
 - [issues](https://github.com/mrKylinZhou/vue-infinite-iscroll/issues)
+- [docs](./docs/scroll.md)
 
 ## Quick Start
-```javascript
-import InfiniteScroll from 'vue-infinite-iscroll'
-
-<infinite-scroll>
+```html
+<infinite-scroll
+  :lists="lists"
+  :length="30">
   <div
     slot-scope="props">
     {{ props.data }}
