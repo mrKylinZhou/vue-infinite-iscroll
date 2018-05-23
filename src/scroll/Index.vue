@@ -9,7 +9,7 @@
         v-for="(item, index) in showLists"
         :key="index"
         :data-id="item">
-        <slot :data="item"></slot>
+        <slot :data="JSON.parse(item)"></slot>
       </div>
     </div>
   </div>
@@ -32,7 +32,9 @@ export default {
   },
   data() {
     return {
-      showLists: this.lists.slice(0, this.length)
+      showLists: this.lists
+        .slice(0, this.length)
+        .map(item => JSON.stringify(item))
     }
   },
   watch: {
@@ -52,12 +54,15 @@ export default {
         dataset: this.requestData,
         dataFiller: this.updateContent,
         infiniteLimit: this.lists.length,
-        cacheSize: 1000
+        cacheSize: Math.max(300, this.length)
       });
     },
     requestData(start, count) {
       this.$nextTick(() => {
-        this.scroll && this.scroll.updateCache(start, this.lists.slice(start, start + count))
+        const caches = this.lists
+          .slice(start, start + count)
+          .map(item => JSON.stringify(item))
+        this.scroll && this.scroll.updateCache(start, caches)
       })
     },
     updateContent(el, value) {
