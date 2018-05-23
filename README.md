@@ -17,8 +17,12 @@ npm install vue-infinite-iscroll -S || yarn add vue-infinite-iscroll
 ```javascript
 import InfiniteScroll from 'vue-infinite-iscroll'
 
-<infinite-scroll></infinite-scroll>
-
+<infinite-scroll>
+  <div
+    slot-scope="props">
+    {{ props.data }}
+  </div>
+</infinite-scroll>
 ```
 
 ## LICENSE

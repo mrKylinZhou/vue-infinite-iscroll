@@ -19,14 +19,20 @@
 import IScroll from 'iscroll/build/iscroll-infinite'
 export default {
   props: {
+    // 完整的展示列表
     lists: {
       required: true,
       type: Array
+    },
+    // 需要复用的元素个数
+    length: {
+      type: Number,
+      default: 30
     }
   },
   data() {
     return {
-      showLists: this.lists.slice(0, 30)
+      showLists: this.lists.slice(0, this.length)
     }
   },
   watch: {
