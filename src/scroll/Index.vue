@@ -1,7 +1,10 @@
 <template>
   <div
     ref="wrapper"
-    class="wrapper">
+    class="wrapper"
+    :style="{
+      height: `${height}px`
+    }">
     <div class="scroller">
       <div
         ref="row"
@@ -28,6 +31,11 @@ export default {
     length: {
       type: Number,
       default: 30
+    },
+    // 视觉区域高度
+    height: {
+      type: Number,
+      default: 300
     }
   },
   data() {
@@ -90,7 +98,6 @@ export default {
 <style scoped>
   .wrapper {
     position: relative;
-    max-height: 300px;
     z-index: 1;
     overflow: hidden;
   }
