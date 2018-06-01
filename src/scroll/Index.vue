@@ -1,11 +1,11 @@
 <template>
   <div
     ref="wrapper"
-    class="wrapper"
+    :class="{ wrapper: useIscroll }"
     :style="{
       height: `${height}px`
     }">
-    <div class="scroller">
+    <div :class="{ scroller : useIscroll }">
       <div
         ref="row"
         class="row"
@@ -42,12 +42,13 @@ export default {
     return {
       showLists: this.lists
         .slice(0, this.length)
-        .map(item => JSON.stringify(item))
+        .map(item => JSON.stringify(item)),
+      useIscroll: false
     }
   },
   watch: {
     lists() {
-      this.scroll & this.scroll.destroy()
+      this.scroll && this.scroll.destroy()
       this.scroll = null
       this.$nextTick(() => {
         this.$init()
@@ -63,7 +64,7 @@ export default {
         dataFiller: this.updateContent,
         infiniteLimit: this.lists.length,
         cacheSize: Math.max(300, this.length)
-      });
+      })
     },
     requestData(start, count) {
       this.$nextTick(() => {
@@ -88,8 +89,15 @@ export default {
     }
   },
   mounted() {
+    const baseRowHeight = this.$refs.row
+      ? this.$refs.row[0].offsetHeight
+      : 0
+    const wrapperHeight = this.$refs.wrapper.offsetHeight
+    this.useIscroll = wrapperHeight < baseRowHeight * this.showLists.length
+      ? true
+      : false
     this.$nextTick(() => {
-      this.$init()
+      this.useIscroll && this.$init()
     })
   }
 }
