@@ -20,6 +20,7 @@
 
 <script>
 import IScroll from 'iscroll/build/iscroll-infinite'
+import ElementResize from 'element-resize-detector'
 export default {
   props: {
     // 完整的展示列表
@@ -43,7 +44,8 @@ export default {
       showLists: this.lists
         .slice(0, this.length)
         .map(item => JSON.stringify(item)),
-      useIscroll: false
+      useIscroll: false,
+      erd: null
     }
   },
   watch: {
@@ -56,6 +58,15 @@ export default {
     }
   },
   methods: {
+    calc() {
+      const baseRowHeight = this.$refs.row
+        ? this.$refs.row[0].offsetHeight
+        : 0
+      const wrapperHeight = this.$refs.wrapper.offsetHeight
+      this.useIscroll = wrapperHeight < baseRowHeight * this.showLists.length
+        ? true
+        : false
+    },
     $init() {
       this.scroll = new IScroll(this.$refs.wrapper, {
         mouseWheel: true,
@@ -89,16 +100,16 @@ export default {
     }
   },
   mounted() {
-    const baseRowHeight = this.$refs.row
-      ? this.$refs.row[0].offsetHeight
-      : 0
-    const wrapperHeight = this.$refs.wrapper.offsetHeight
-    this.useIscroll = wrapperHeight < baseRowHeight * this.showLists.length
-      ? true
-      : false
+    this.calc()
+    this.erd = new ElementResize()
+    this.erd.listenTo(this.$refs.wrapper, this.calc.bind(this))
     this.$nextTick(() => {
       this.useIscroll && this.$init()
     })
+  },
+  beforeDestroy() {
+    this.erd && this.$refs.wrapper && this.erd.uninstall(this.$refs.wrapper);
+    this.erd = null;
   }
 }
 </script>
