@@ -20,7 +20,7 @@
 
 <script>
 import IScroll from 'iscroll/build/iscroll-infinite'
-import ElementResize from 'element-resize-detector'
+
 export default {
   props: {
     // 完整的展示列表
@@ -101,15 +101,9 @@ export default {
   },
   mounted() {
     this.calc()
-    this.erd = new ElementResize()
-    this.erd.listenTo(this.$refs.wrapper, this.calc.bind(this))
     this.$nextTick(() => {
       this.useIscroll && this.$init()
     })
-  },
-  beforeDestroy() {
-    this.erd && this.$refs.wrapper && this.erd.uninstall(this.$refs.wrapper);
-    this.erd = null;
   }
 }
 </script>
