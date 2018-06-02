@@ -13,6 +13,7 @@ npm install vue-infinite-iscroll -S || yarn add vue-infinite-iscroll
 
 - [issues](https://github.com/mrKylinZhou/vue-infinite-iscroll/issues)
 - [docs](./docs/scroll.md)
+- [log](./change-log.md)
 
 ## Quick Start
 ```html
