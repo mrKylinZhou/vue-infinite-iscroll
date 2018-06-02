@@ -20,6 +20,9 @@
 
 <script>
 import IScroll from 'iscroll/build/iscroll-infinite'
+import ElementResize from 'element-resize-detector'
+
+import { throttle } from 'lodash/function'
 
 export default {
   props: {
@@ -62,10 +65,15 @@ export default {
       const baseRowHeight = this.$refs.row
         ? this.$refs.row[0].offsetHeight
         : 0
-      const wrapperHeight = this.$refs.wrapper.offsetHeight
+      const wrapperHeight = this.height
       this.useIscroll = wrapperHeight < baseRowHeight * this.showLists.length
         ? true
         : false
+      this.$nextTick(() => {
+        this.scroll && this.scroll.destroy()
+        this.scroll = null
+        this.useIscroll && this.$init()
+      })
     },
     $init() {
       this.scroll = new IScroll(this.$refs.wrapper, {
@@ -101,9 +109,13 @@ export default {
   },
   mounted() {
     this.calc()
-    this.$nextTick(() => {
-      this.useIscroll && this.$init()
-    })
+    this.erd = new ElementResize()
+    this.calc = throttle(this.calc.bind(this), 300)
+    this.erd.listenTo(this.$refs.wrapper, this.calc.bind(this))
+  },
+  beforeDestroy() {
+    this.erd && this.$refs.wrapper && this.erd.uninstall(this.$refs.wrapper)
+    this.erd = null;
   }
 }
 </script>
