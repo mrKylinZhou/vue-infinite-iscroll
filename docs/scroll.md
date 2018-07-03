@@ -18,3 +18,5 @@
 |---------- |-------------- |---------- |--------------------------------  |-------- |
 | lists | 完整的列表 | array | — | — |
 | length | 复用的dom数量 | number | — | 30 |
+| wrapCustomClass | 自定义wrap类名 | string | — | - |
+| rowCustomClass | 自定义item类名 | string | — | - |
