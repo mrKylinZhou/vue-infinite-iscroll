@@ -1,14 +1,14 @@
 <template>
   <div
     ref="wrapper"
-    :class="{ wrapper: useIscroll }"
+    :class="wrapperClass"
     :style="{
       height: `${height}px`
     }">
-    <div :class="{ scroller : useIscroll }">
+    <div :class="{ 'k-infinite-iscroll-scroller' : useIscroll }">
       <div
         ref="row"
-        class="row"
+        :class="rowClass"
         v-for="(item, index) in showLists"
         :key="index"
         :data-id="item">
@@ -40,7 +40,9 @@ export default {
     height: {
       type: Number,
       default: 300
-    }
+    },
+    wrapCustomClass: String,
+    rowCustomClass: String
   },
   data() {
     return {
@@ -49,6 +51,18 @@ export default {
         .map(item => JSON.stringify(item)),
       useIscroll: false,
       erd: null
+    }
+  },
+  computed: {
+    wrapperClass() {
+      const base = 'k-infinite-iscroll-wrapper'
+      const classes = [this.wrapCustomClass]
+      if (this.useIscroll) classes.push(base)
+      return classes
+    },
+    rowClass() {
+      const base = 'k-infinite-iscroll-row'
+      return [this.itemCustomClass, base]
     }
   },
   watch: {
@@ -121,13 +135,13 @@ export default {
 </script>
 
 <style scoped>
-  .wrapper {
+  .k-infinite-iscroll-wrapper {
     position: relative;
     z-index: 1;
     overflow: hidden;
   }
 
-  .scroller {
+  .k-infinite-iscroll-scroller {
     position: absolute;
     z-index: 1;
     width: 100%;
@@ -135,13 +149,13 @@ export default {
     user-select: none;
   }
 
-  .scroller {
+  .k-infinite-iscroll-scroller {
     padding: 0;
     margin: 0;
     position: relative;
   }
 
-  .scroller .row {
+  .k-infinite-iscroll-scroller .k-infinite-iscroll-row {
     position: absolute;
     top: 0;
     left: 0;
