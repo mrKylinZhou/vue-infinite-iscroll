@@ -62,7 +62,7 @@ export default {
     },
     rowClass() {
       const base = 'k-infinite-iscroll-row'
-      return [this.itemCustomClass, base]
+      return [this.rowCustomClass, base]
     }
   },
   watch: {
