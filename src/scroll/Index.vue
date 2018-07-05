@@ -90,7 +90,12 @@ export default {
       })
     },
     $init() {
-      this.scroll = new IScroll(this.$refs.wrapper, {
+      const wrapper = this.$refs.wrapper
+      if (!wrapper
+        || !wrapper.parentNode
+        || wrapper.parentNode.style.display === 'none')
+      return
+      this.scroll = new IScroll(wrapper, {
         mouseWheel: true,
         infiniteElements: this.$refs.row,
         dataset: this.requestData,
