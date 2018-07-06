@@ -1,6 +1,6 @@
 {
   "name": "vue-infinite-iscroll",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "A vue infinite scroll",
   "main": "dist/vue-infinite-iscroll.min.js",
   "author": "周麒麟 <mrkylin.zhou@gmail.com>",
