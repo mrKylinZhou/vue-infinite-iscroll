@@ -78,14 +78,16 @@ export default {
     }
   },
   methods: {
-    calc() {
+    calc(e) {
       const baseRowHeight = this.$refs.row
         ? this.$refs.row[0].offsetHeight
-        : Infinity
+        : 0
+      if (baseRowHeight === 0) return
       this.length = Math.ceil(this.height / baseRowHeight)
       this.wrapHeight = baseRowHeight * this.showLists.length > this.height
         ? this.height
         : baseRowHeight * this.showLists.length
+      if (e && e.offsetHeight === this.wrapHeight) return
       this.scroll && this.scroll.destroy()
       this.$nextTick(() => {
         this.$init()
@@ -131,7 +133,7 @@ export default {
   mounted() {
     this.calc()
     this.erd = new ElementResize()
-    this.calc = throttle(this.calc.bind(this), 300)
+    this.calc = throttle(this.calc.bind(this), 50)
     this.erd.listenTo(this.$refs.wrapper, this.calc.bind(this))
   },
   beforeDestroy() {
