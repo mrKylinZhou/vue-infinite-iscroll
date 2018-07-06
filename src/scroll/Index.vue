@@ -3,9 +3,9 @@
     ref="wrapper"
     :class="wrapperClass"
     :style="{
-      height: `${height}px`
+      height: `${wrapHeight}px`
     }">
-    <div :class="{ 'k-infinite-iscroll-scroller' : useIscroll }">
+    <div class='k-infinite-iscroll-scroller'>
       <div
         ref="row"
         :class="rowClass"
@@ -31,11 +31,6 @@ export default {
       required: true,
       type: Array
     },
-    // 需要复用的元素个数
-    length: {
-      type: Number,
-      default: 30
-    },
     // 视觉区域高度
     height: {
       type: Number,
@@ -46,19 +41,19 @@ export default {
   },
   data() {
     return {
+      scroll: null,
+      erd: null,
+      length: 0,
+      wrapHeight: 0,
       showLists: this.lists
-        .slice(0, this.length)
-        .map(item => JSON.stringify(item)),
-      useIscroll: false,
-      erd: null
+        .slice(0, 1)
+        .map(item => JSON.stringify(item))
     }
   },
   computed: {
     wrapperClass() {
       const base = 'k-infinite-iscroll-wrapper'
-      const classes = [this.wrapCustomClass]
-      if (this.useIscroll) classes.push(base)
-      return classes
+      return [this.wrapCustomClass, base]
     },
     rowClass() {
       const base = 'k-infinite-iscroll-row'
@@ -66,27 +61,37 @@ export default {
     }
   },
   watch: {
-    lists() {
-      this.scroll && this.scroll.destroy()
-      this.scroll = null
+    lists(lists) {
+      if (lists.length === 0) return
+      this.showLists = lists
+        .slice(0, this.length || 1)
+        .map(item => JSON.stringify(item))
       this.$nextTick(() => {
-        this.$init()
+        this.calc()
       })
+    },
+    length(l, last) {
+      if (l === last) return
+      this.showLists = this.lists
+        .slice(0, l)
+        .map(item => JSON.stringify(item))
     }
   },
   methods: {
-    calc() {
+    calc(e) {
       const baseRowHeight = this.$refs.row
         ? this.$refs.row[0].offsetHeight
-        : 0
-      const wrapperHeight = this.height
-      this.useIscroll = wrapperHeight < baseRowHeight * this.showLists.length
-        ? true
-        : false
+        : Infinity
+      if (e && e.offsetHeight === this.wrapHeight) return
+      this.length = Math.ceil(this.height / baseRowHeight)
+      if (baseRowHeight * this.showLists.length > this.height) {
+        this.wrapHeight = this.height
+      } else {
+        this.wrapHeight = baseRowHeight * this.showLists.length
+      }
+      this.scroll && this.scroll.destroy()
       this.$nextTick(() => {
-        this.scroll && this.scroll.destroy()
-        this.scroll = null
-        this.useIscroll && this.$init()
+        this.$init()
       })
     },
     $init() {
@@ -101,7 +106,7 @@ export default {
         dataset: this.requestData,
         dataFiller: this.updateContent,
         infiniteLimit: this.lists.length,
-        cacheSize: Math.max(300, this.length)
+        cacheSize: 300
       })
     },
     requestData(start, count) {
@@ -134,7 +139,9 @@ export default {
   },
   beforeDestroy() {
     this.erd && this.$refs.wrapper && this.erd.uninstall(this.$refs.wrapper)
-    this.erd = null;
+    this.erd = null
+    this.scroll && this.scroll.destroy()
+    this.scroll = null
   }
 }
 </script>

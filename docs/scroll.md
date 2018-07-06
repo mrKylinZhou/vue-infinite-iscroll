@@ -17,6 +17,6 @@
 | 参数      | 说明          | 类型      | 可选值                           | 默认值  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
 | lists | 完整的列表 | array | — | — |
-| length | 复用的dom数量 | number | — | 30 |
+| height | 最大高度| number | — | 300 |
 | wrapCustomClass | 自定义wrap类名 | string | — | - |
 | rowCustomClass | 自定义item类名 | string | — | - |
