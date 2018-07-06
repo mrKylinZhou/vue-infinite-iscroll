@@ -78,17 +78,14 @@ export default {
     }
   },
   methods: {
-    calc(e) {
+    calc() {
       const baseRowHeight = this.$refs.row
         ? this.$refs.row[0].offsetHeight
         : Infinity
-      if (e && e.offsetHeight === this.wrapHeight) return
       this.length = Math.ceil(this.height / baseRowHeight)
-      if (baseRowHeight * this.showLists.length > this.height) {
-        this.wrapHeight = this.height
-      } else {
-        this.wrapHeight = baseRowHeight * this.showLists.length
-      }
+      this.wrapHeight = baseRowHeight * this.showLists.length > this.height
+        ? this.height
+        : baseRowHeight * this.showLists.length
       this.scroll && this.scroll.destroy()
       this.$nextTick(() => {
         this.$init()
