@@ -79,7 +79,7 @@ export default {
   },
   methods: {
     calc(e) {
-      const baseRowHeight = this.$refs.row[0]
+      const baseRowHeight = this.$refs.row && this.$refs.row[0]
         ? this.$refs.row[0].offsetHeight
         : 0
       if (baseRowHeight === 0) return
