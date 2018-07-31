@@ -62,7 +62,6 @@ export default {
   },
   watch: {
     lists(lists) {
-      if (lists.length === 0) return
       this.showLists = lists
         .slice(0, this.length || 1)
         .map(item => JSON.stringify(item))
@@ -79,16 +78,18 @@ export default {
   },
   methods: {
     calc(e) {
+      this.scroll && this.scroll.destroy()
       const baseRowHeight = this.$refs.row && this.$refs.row[0]
         ? this.$refs.row[0].offsetHeight
         : 0
-      if (baseRowHeight === 0) return
+      if (baseRowHeight === 0) {
+        this.wrapHeight = 0
+        return
+      }
       this.length = Math.ceil(this.height / baseRowHeight)
       this.wrapHeight = baseRowHeight * this.showLists.length > this.height
         ? this.height
         : baseRowHeight * this.showLists.length
-      if (e && e.offsetHeight === this.wrapHeight) return
-      this.scroll && this.scroll.destroy()
       this.$nextTick(() => {
         this.$init()
       })
