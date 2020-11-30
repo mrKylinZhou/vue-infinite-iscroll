@@ -12,7 +12,7 @@
         v-for="(item, index) in showLists"
         :key="index"
         :data-id="item">
-        <slot :data="JSON.parse(item)"></slot>
+        <slot :data="parseData(item)"></slot>
       </div>
     </div>
   </div>
@@ -129,6 +129,14 @@ export default {
       this.$nextTick(() => {
         this.$forceUpdate()
       })
+    },
+    parseData(data) {
+      try {
+        return Json.parse(data)
+      } catch (e) {
+        console.warn('数据异常, 请检查')
+        return {}
+      }
     }
   },
   mounted() {
