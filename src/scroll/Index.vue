@@ -132,7 +132,7 @@ export default {
     },
     parseData(data) {
       try {
-        return Json.parse(data)
+        return JSON.parse(data)
       } catch (e) {
         console.warn('数据异常, 请检查')
         return {}
