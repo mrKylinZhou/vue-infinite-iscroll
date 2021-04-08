@@ -47,6 +47,7 @@ export default {
       wrapHeight: 0,
       showLists: this.lists
         .slice(0, 1)
+        .filter(item => Boolean(item))
         .map(item => JSON.stringify(item))
     }
   },
@@ -64,6 +65,7 @@ export default {
     lists(lists) {
       this.showLists = lists
         .slice(0, this.length || 1)
+        .filter(item => Boolean(item))
         .map(item => JSON.stringify(item))
       this.$nextTick(() => {
         this.calc()
@@ -73,6 +75,7 @@ export default {
       if (l === last) return
       this.showLists = this.lists
         .slice(0, l)
+        .filter(item => Boolean(item))
         .map(item => JSON.stringify(item))
     }
   },
@@ -113,6 +116,7 @@ export default {
       this.$nextTick(() => {
         const caches = this.lists
           .slice(start, start + count)
+          .filter(item => Boolean(item))
           .map(item => JSON.stringify(item))
         this.scroll && this.scroll.updateCache(start, caches)
       })
