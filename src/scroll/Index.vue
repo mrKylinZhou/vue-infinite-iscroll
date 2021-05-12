@@ -82,9 +82,10 @@ export default {
   methods: {
     calc(e) {
       this.scroll && this.scroll.destroy()
-      const baseRowHeight = this.$refs.row && this.$refs.row[0]
-        ? this.$refs.row[0].offsetHeight
-        : 0
+      let baseRowHeight = 0
+      if (this.$refs.row && this.$refs.row[0]) {
+        baseRowHeight = this.$refs.row[0].offsetHeight || 32
+      }
       if (baseRowHeight === 0) {
         this.wrapHeight = 0
         return
